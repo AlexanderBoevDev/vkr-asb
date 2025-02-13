@@ -100,8 +100,8 @@ textarea {
 }
 
 .img-mask {
-  -webkit-mask-image: url("/public/assets/png/mask-image@2x.png");
-  mask-image: url("/public/assets/png/mask-image@2x.png");
+  -webkit-mask-image: url("/assets/png/mask-image@2x.png");
+  mask-image: url("/assets/png/mask-image@2x.png");
   -webkit-mask-position: center center;
   mask-position: center center;
   -webkit-mask-repeat: no-repeat;
