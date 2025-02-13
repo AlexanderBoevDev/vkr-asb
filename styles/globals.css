@@ -86,3 +86,26 @@ textarea {
 .parallax-top-shadow {
   /* Если здесь были какие-то дополнительные стили, тоже добавляем */
 }
+
+.img-wrap {
+  width: 100%;
+}
+
+.img-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-style: none;
+}
+
+.img-mask {
+  -webkit-mask-image: url("@/public/assets/png/mask-image@2x.png");
+  mask-image: url("@/public/assets/png/mask-image@2x.png");
+  -webkit-mask-position: center center;
+  mask-position: center center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+}
