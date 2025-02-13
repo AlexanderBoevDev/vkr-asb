@@ -1,0 +1,115 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum FieldType {
+  INPUT
+  TEXTAREA
+  SELECT
+  CHECKBOX
+  RADIO
+  FILE
+  IMAGE
+  BOOLEAN
+}
+
+enum DisplayMode {
+  TEASER
+  FULL
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String
+  role     UserRole @default(MANAGER)
+}
+
+model Page {
+  id              Int         @id @default(autoincrement())
+  title           String
+  slug            String      @unique
+  metaTitle       String?
+  metaDescription String?
+  isPublished     Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  paragraphs      Paragraph[]
+}
+
+model Paragraph {
+  id          Int         @id @default(autoincrement())
+  pageId      Int
+  isPublished Boolean     @default(false)
+  order       Int         @default(0)
+  displayMode DisplayMode @default(FULL)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  page        Page        @relation(fields: [pageId], references: [id])
+  fields      Field[]
+}
+
+model Field {
+  id          Int       @id @default(autoincrement())
+  paragraphId Int
+  fieldType   FieldType
+  content     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  paragraph   Paragraph @relation(fields: [paragraphId], references: [id])
+}
+
+model ContactForm {
+  id               Int                          @id @default(autoincrement())
+  name             String
+  isPublished      Boolean                      @default(false)
+  createdAt        DateTime                     @default(now())
+  updatedAt        DateTime                     @updatedAt
+  fieldDefinitions ContactFormFieldDefinition[]
+  submissions      ContactSubmission[]
+}
+
+model ContactFormFieldDefinition {
+  id            Int       @id @default(autoincrement())
+  contactFormId Int
+  label         String
+  machineName   String
+  fieldType     FieldType
+  order         Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now())
+
+  contactForm            ContactForm              @relation(fields: [contactFormId], references: [id])
+  ContactSubmissionValue ContactSubmissionValue[]
+}
+
+model ContactSubmission {
+  id        Int                      @id @default(autoincrement())
+  formId    Int
+  createdAt DateTime                 @default(now())
+  updatedAt DateTime                 @default(now())
+  form      ContactForm              @relation(fields: [formId], references: [id])
+  values    ContactSubmissionValue[]
+}
+
+model ContactSubmissionValue {
+  id                Int      @id @default(autoincrement())
+  submissionId      Int
+  fieldDefinitionId Int
+  value             String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now())
+
+  submission      ContactSubmission          @relation(fields: [submissionId], references: [id])
+  fieldDefinition ContactFormFieldDefinition @relation(fields: [fieldDefinitionId], references: [id])
+}
