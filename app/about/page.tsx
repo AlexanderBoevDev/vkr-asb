@@ -6,6 +6,29 @@ import ShadowTitle from "@/app/components/ShadowTitle";
 import PageTitle from "@/app/components/PageTitle";
 import PageSubtitle from "@/app/components/PageSubtitle";
 
+const technologies = [
+  { name: "jQuery", src: "/assets/svg/jquery.svg" },
+  { name: "Acquia", src: "/assets/svg/acquia.svg" },
+  { name: "Amazon", src: "/assets/svg/amazon.svg" },
+  { name: "Bitrix", src: "/assets/svg/bitrix.svg" },
+  { name: "Django", src: "/assets/svg/django.svg" },
+  { name: "Drupal", src: "/assets/svg/drupal8.svg" },
+  { name: "MySQL", src: "/assets/svg/mysql.svg" },
+  { name: "Node.js", src: "/assets/svg/nodejs.svg" },
+  { name: "PostgreSQL", src: "/assets/svg/postgresql.svg" },
+  { name: "Python", src: "/assets/svg/python.svg" },
+  { name: "Swift", src: "/assets/svg/swift.svg" },
+  { name: "Xamarin", src: "/assets/svg/xamarin.svg" },
+  { name: "Docker", src: "/assets/svg/docker.svg" },
+  { name: "Bootstrap", src: "/assets/svg/bootstrap.svg" },
+  { name: "AngularJS", src: "/assets/svg/angularjs.svg" },
+  { name: "Java EE", src: "/assets/svg/java.svg" },
+  { name: "Sass", src: "/assets/svg/sass.svg" },
+  { name: "Less", src: "/assets/svg/less.svg" },
+  { name: "Symfony", src: "/assets/svg/symfony.svg" },
+  { name: "PHP", src: "/assets/svg/php.svg" }
+];
+
 export default function AboutPage() {
   return (
     <div className="container flex-grow mx-auto mt-5 mb-5 px-6 min-h-screen max-w-[1280px]">
@@ -85,6 +108,56 @@ export default function AboutPage() {
               Vuln Scan
             </li>
           </ul>
+        </div>
+      </section>
+      <section className="block z-10 relative mt-16 mb-16">
+        <h2 className="text-4xl font-magistral font-bold mb-0">Технологии</h2>
+        <p className="font-magistral-light-italic mb-8 text-lg">
+          что мы используем при работе с проектами
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+          {technologies.map((tech) => (
+            <div
+              key={tech.name}
+              className="flex items-center justify-center border border-gray-600 bg-[#1f2029] w-full h-[120px] sm:h-[150px] lg:h-[180px]"
+            >
+              <img
+                src={tech.src}
+                alt={tech.name}
+                className="max-h-[50px] max-w-[60%] opacity-80 hover:opacity-100 transition-opacity"
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="relative mt-8 lg:mt-24 mb-8 lg:mb-24">
+        <div
+          className={`
+            relative pl-20 text-lg
+            before:content-['“']
+            before:absolute
+            before:top-0
+            before:left-0
+            before:text-[120px]
+            before:leading-[0.9]
+            before:font-bold
+            before:text-transparent
+            before:[-webkit-text-stroke:2px_rgb(97,100,129)]
+            before:[text-stroke:2px_rgb(97,100,129)]
+            before:font-[Muli,sans-serif]
+          `}
+        >
+          <p className="font-magistral-light-italic mb-8 text-lg lg:text-2xl">
+            Веб сайт должен отражать сущность и эстетичность компании, и веб
+            сайт не должен быть только снаружи красив, он также должен быть
+            оформлен правильно изнутри, что бы приносить удовольствие не только
+            посетителям веб сайта но, и разработчикам которые будет работать с
+            кодом.
+          </p>
+          <p className="font-magistral-light-italic mb-8 text-lg lg:text-2xl">
+            Поэтому пока одни думают, другие зарабатывают. Оставить заявку на
+            разработку вашего личного веб сайта!
+          </p>
         </div>
       </section>
     </div>
