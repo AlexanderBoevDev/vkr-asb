@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useTheme } from "next-themes";
 
@@ -227,13 +227,12 @@ const markerDark = svgToDataURL(markerSVG_Dark);
 
 export function GoogleMapComponent() {
   const { resolvedTheme } = useTheme();
-  const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
-  
+
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""
   });
-  
+
   const mapOptions = useMemo(() => {
     return {
       zoom: 12,
@@ -242,17 +241,17 @@ export function GoogleMapComponent() {
       styles: resolvedTheme === "dark" ? darkStyle : lightStyle
     };
   }, [resolvedTheme]);
-  
+
   const markerIcon = resolvedTheme === "dark" ? markerDark : markerLight;
-  
+
   if (loadError) {
     return <div>Ошибка загрузки Google Maps: {loadError.message}</div>;
   }
-  
+
   if (!isLoaded) {
     return <div>Загрузка карты...</div>;
   }
-  
+
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}

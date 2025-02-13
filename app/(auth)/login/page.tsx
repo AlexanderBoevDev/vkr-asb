@@ -5,7 +5,6 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Input, Button } from "@heroui/react";
 import { Eye, EyeOff } from "lucide-react";
-import Link from "next/link";
 import ShadowTitle from "@/app/components/ShadowTitle";
 import PageTitle from "@/app/components/PageTitle";
 import PageSubtitle from "@/app/components/PageSubtitle";
