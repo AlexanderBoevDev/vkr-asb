@@ -71,7 +71,7 @@ export function UncoverImage({
                 w-[800px]
                 max-w-full
                 min-w-[200px]
-                h-[220px]
+                h-[260px]
                 sm:h-[380px]
                 lg:h-[420px]
                 bg-cover
@@ -127,7 +127,8 @@ export function UncoverImage({
             <figcaption className="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
               <h2
                 className="
-                  text-3xl
+                  text-xl
+                  md:text-3xl
                   font-magistral-bold
                   tracking-wide
                   text-dark-4
