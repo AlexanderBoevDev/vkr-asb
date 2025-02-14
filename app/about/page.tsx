@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Image } from "@heroui/react";
+import Image from "next/image";
 import ShadowTitle from "@/app/components/ShadowTitle";
 import PageTitle from "@/app/components/PageTitle";
 import PageSubtitle from "@/app/components/PageSubtitle";
@@ -44,6 +44,7 @@ export default function AboutPage() {
             alt="ASB Studio"
             src="/assets/jpg/about.jpg"
             width={1200}
+            height={500}
             className="img-mask"
           />
         </div>
@@ -119,11 +120,13 @@ export default function AboutPage() {
           {technologies.map((tech) => (
             <div
               key={tech.name}
-              className="flex items-center justify-center border border-gray-600 bg-[#1f2029] w-full h-[120px] sm:h-[150px] lg:h-[180px]"
+              className="flex items-center justify-center border border-gray-600 bg-[#1f2029] w-full h-[120px] sm:h-[150px] lg:h-[180px] relative"
             >
-              <img
-                src={tech.src}
+              <Image
                 alt={tech.name}
+                src={tech.src}
+                width={320}
+                height={150}
                 className="max-h-[50px] max-w-[60%] opacity-80 hover:opacity-100 transition-opacity"
               />
             </div>

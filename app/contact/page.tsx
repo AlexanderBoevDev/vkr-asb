@@ -217,7 +217,7 @@ export default function ContactPage() {
                 </div>
                 <div className="md:col-span-2 flex flex-col gap-4 mt-4">
                   <Checkbox defaultSelected size="md" color="default">
-                    <p className="text-tiny dark:text-white">
+                    <p className="text-dark-2 dark:text-white">
                       Отправляя заявку, Вы соглашаетесь на обработку
                       персональных данных.{" "}
                       <a

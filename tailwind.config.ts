@@ -38,8 +38,22 @@ export default {
         roboto: ["Roboto", "sans-serif"],
         muli: ["Muli", "sans-serif"]
         // Или как вы их используете
+      },
+      keyframes: {
+        slideInUp: {
+          "0%": {
+            transform: "translateY(30px)",
+            opacity: "0"
+          },
+          "100%": {
+            transform: "translateY(0)",
+            opacity: "1"
+          }
+        }
+      },
+      animation: {
+        slideInUp: "slideInUp 0.6s ease forwards"
       }
-      // Если нужно, можно добавить spacing, borderRadius и т. д.
     }
   },
   plugins: [
@@ -73,6 +87,5 @@ export default {
         }
       }
     })
-    // при желании любые другие плагины
   ]
 } satisfies Config;
