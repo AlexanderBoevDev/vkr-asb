@@ -120,7 +120,7 @@ export default function AboutPage() {
           {technologies.map((tech) => (
             <div
               key={tech.name}
-              className="flex items-center justify-center border border-gray-600 bg-[#1f2029] w-full h-[120px] sm:h-[150px] lg:h-[180px] relative"
+              className="flex items-center justify-center border-gray-100 bg-dark-4/40 border dark:border-dark-1 dark:bg-dark-1 w-full h-[120px] sm:h-[150px] lg:h-[180px] relative"
             >
               <Image
                 alt={tech.name}

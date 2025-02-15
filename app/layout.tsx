@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { Providers } from "@/app/providers";
 import NavBar from "@/app/components/NavBar";
+import { CustomCursor } from "@/app/components/CustomCursor";
 import { FooterPage } from "@/app/components/PageFooter";
 import "@/styles/globals.css";
 import "@/public/assets/fonts/magistral.css";
@@ -34,6 +35,7 @@ export default function RootLayout({
           <NavBar />
           <main className="overflow-hidden">{children}</main>
           <FooterPage />
+          <CustomCursor />
         </Providers>
       </body>
     </html>

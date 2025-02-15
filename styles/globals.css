@@ -83,10 +83,6 @@ textarea {
   -webkit-text-fill-color: transparent;
 }
 
-.parallax-top-shadow {
-  /* Если здесь были какие-то дополнительные стили, тоже добавляем */
-}
-
 .img-wrap {
   width: 100%;
 }
@@ -108,4 +104,22 @@ textarea {
   mask-repeat: no-repeat;
   -webkit-mask-size: cover;
   mask-size: cover;
+}
+
+.cursor1.cursor-hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+
+.cursor2.cursor-hover,
+.cursor3.cursor-hover {
+  transform: scale(1.5) translateX(-25%) translateY(-25%) !important;
+  border: none !important;
+}
+
+@layer components {
+  .cursor-hover {
+    @apply scale-150!important;
+    transform: translate(-25%, -25%) scale(1) !important;
+    border: none !important;
+  }
 }
