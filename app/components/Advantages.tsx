@@ -9,7 +9,7 @@ export default function Advantages({
   advantages
 }: AdvantagesProps) {
   return (
-    <section className="block text-dark-2 dark:text-white z-10 relative mt-20 mb-20">
+    <section className="block text-dark-2 dark:text-white z-10 relative mt-24 mb-24">
       <h2 className="text-4xl font-magistral font-bold mb-0">{heading}</h2>
       <p className="font-magistral-light-italic mb-8 text-lg">{subtitle}</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">

@@ -147,7 +147,7 @@ export default function WebDevelopmentPage() {
         <section className="block z-10 relative">
           <div className="img-wrap mt-7 lg:mt-16">
             <Image
-              alt="ASB Studio"
+              alt="Разработка веб сайтов"
               src="/assets/jpg/web-development.jpg"
               width={1200}
               height={500}

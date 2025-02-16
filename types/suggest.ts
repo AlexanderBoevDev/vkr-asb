@@ -11,6 +11,6 @@ export interface SuggestItem {
 
 export interface SuggestProps {
   heading: string;
-  subtitle: string;
+  subtitle?: string;
   items: SuggestItem[];
 }
