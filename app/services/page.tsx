@@ -13,56 +13,39 @@ export default function ServicesPage() {
   const servicesData: ServiceItem[] = [
     {
       id: 1,
-      src: "https://asb-studio.ru/sites/default/files/styles/image_teaser_service/public/node/service/Website-development.jpg",
+      src: "/assets/jpg/services-website-development.jpg",
       orientation: "vertical",
       title: "Разработка сайтов",
       description:
         "Получите современный сайт, поднимающий бизнес на новый уровень!",
-      link: "/about"
+      link: "/services/web-development"
     },
     {
       id: 2,
-      src: "https://asb-studio.ru/sites/default/files/styles/image_teaser_service/public/node/service/Website-development.jpg",
+      src: "/assets/jpg/services-drupal-development.jpg",
       orientation: "horizontal",
       title: "Drupal разработка",
       description:
         "Раскройте потенциал Drupal, создавая быстрые и безопасные сайты!",
-      link: "#"
+      link: "/services/drupal-development"
     },
     {
       id: 3,
-      src: "https://asb-studio.ru/sites/default/files/styles/image_teaser_service/public/node/service/Website-development.jpg",
+      src: "/assets/jpg/services-mobile-development.jpg",
       orientation: "vertical",
       title: "Мобильная разработка",
       description:
         "Запустим приложение, которое привлечёт клиентов и увеличит продажи.",
-      link: "#"
-    },
-    {
-      id: 4,
-      src: "https://asb-studio.ru/sites/default/files/styles/image_teaser_service/public/node/service/Website-development.jpg",
-      orientation: "horizontal",
-      title: "Разработка Ui/Ux",
-      description:
-        "Создаём удобные интерфейсы, повышающие конверсию и лояльность аудитории.",
-      link: "#"
-    },
-    {
-      id: 5,
-      src: "https://asb-studio.ru/sites/default/files/styles/image_teaser_service/public/node/service/Website-development.jpg",
-      orientation: "vertical",
-      title: "Комплексное решение",
-      description: "Охватываем цикл: от идеи до запуска, экономя ресурсы.",
-      link: "#"
+      link: "/services/mobile-development"
     },
     {
       id: 6,
-      src: "https://asb-studio.ru/sites/default/files/styles/image_teaser_service/public/node/service/Website-development.jpg",
+      src: "/assets/jpg/services-support.jpg",
       orientation: "horizontal",
       title: "Веб-поддержка",
       description:
         "Поддержим сайт стабильно, развиваем функции, гарантируя спокойствие бизнеса.",
-      link: "#"
+      link: "/services/services-support"
     }
   ];
 
