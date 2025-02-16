@@ -30,7 +30,9 @@ export default function Suggest({ heading, subtitle, items }: SuggestProps) {
                 <h3 className="text-xl font-magistral font-bold mb-2">
                   {item.heading}
                 </h3>
-                <p className="leading-[1.4]">{item.description}</p>
+                <p className="leading-[1.4] relative z-10">
+                  {item.description}
+                </p>
               </div>
             </div>
           );
