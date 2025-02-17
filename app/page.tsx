@@ -10,11 +10,11 @@ const projects: Project[] = [
     description: "Пример B2B площадки по промышленному оборудованию.",
     category: "Веб разработка",
     images: [
-      "/assets/jpg/portfolio/snabexpress-1.jpg",
-      "/assets/jpg/portfolio/snabexpress-2.jpg",
-      "/assets/jpg/portfolio/snabexpress-3.jpg"
+      "/assets/jpg/portfolio/items/snabexpress/snabexpress-4.jpg",
+      "/assets/jpg/portfolio/items/snabexpress/snabexpress-6.jpg",
+      "/assets/jpg/portfolio/items/snabexpress/snabexpress-7.jpg"
     ],
-    link: "#"
+    link: "/portfolio/snabekspresscentr"
   },
   {
     id: 2,
@@ -22,11 +22,23 @@ const projects: Project[] = [
     description: "Онлайн-магазин товаров для домашних животных.",
     category: "Веб разработка",
     images: [
-      "/assets/jpg/portfolio/luckypet-1.jpg",
-      "/assets/jpg/portfolio/luckypet-2.jpg",
-      "/assets/jpg/portfolio/luckypet-3.jpg"
+      "/assets/jpg/portfolio/items/luckypet/luckypet-3.jpg",
+      "/assets/jpg/portfolio/items/luckypet/luckypet-5.jpg",
+      "/assets/jpg/portfolio/items/luckypet/luckypet-6.jpg"
     ],
-    link: "#"
+    link: "/portfolio/luckypet"
+  },
+  {
+    id: 3,
+    title: "Росгеоресурс",
+    description: "Корпоративный сайт по бурению скважин на воду.",
+    category: "Веб разработка",
+    images: [
+      "/assets/jpg/portfolio/items/rosgeoresurs/rosgeoresurs-16.jpg",
+      "/assets/jpg/portfolio/items/rosgeoresurs/rosgeoresurs-11.jpg",
+      "/assets/jpg/portfolio/items/rosgeoresurs/rosgeoresurs-5.jpg"
+    ],
+    link: "/portfolio/rosgeoresurs"
   }
 ];
 
