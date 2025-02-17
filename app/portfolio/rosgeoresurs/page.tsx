@@ -11,8 +11,7 @@ import PortfolioItemGallery from "@/app/components/PortfolioItemGallery";
 
 const portfolioData = {
   title: "Росгеоресурс",
-  subtitle:
-    "корпоративный сайт по бурению скважин на воду",
+  subtitle: "корпоративный сайт по бурению скважин на воду",
   hero: [
     {
       alt: "Росгеоресурс",
