@@ -1,6 +1,7 @@
 "use client";
 import ShadowTitle from "@/app/components/ShadowTitle";
-import CasesSlider, { Project } from "@/app/components/CasesSlider";
+import CasesSlider from "@/app/components/CasesSlider";
+import { Project } from "@/types/cases-slider";
 
 const projects: Project[] = [
   {
