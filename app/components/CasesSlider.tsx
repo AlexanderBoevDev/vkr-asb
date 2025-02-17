@@ -146,7 +146,6 @@ export default function CasesSlider({ projects }: CasesSliderProps) {
           onAnimationComplete={() => setIsAnimating(false)}
           className="absolute inset-0 flex flex-col md:flex-row"
         >
-          {/* Левая часть - текст */}
           <motion.div
             className="
               absolute
@@ -157,7 +156,6 @@ export default function CasesSlider({ projects }: CasesSliderProps) {
               p-20 xl:p-32 md:pr-0
               flex flex-col md:justify-center
               z-10
-              bg-black/30 lg:bg-transparent
             "
             variants={textVariants}
             initial="hidden"
