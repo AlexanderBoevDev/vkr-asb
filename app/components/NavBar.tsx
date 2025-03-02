@@ -132,11 +132,7 @@ export default function NavBar() {
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link
-            href="/portfolio"
-            className="w-full text-dark-4"
-            onClick={closeMenu}
-          >
+          <Link href="/" className="w-full text-dark-4" onClick={closeMenu}>
             Портфолио
           </Link>
         </NavbarMenuItem>
