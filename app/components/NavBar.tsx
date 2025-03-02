@@ -121,32 +121,52 @@ export default function NavBar() {
           className="lg:hidden text-dark-1 dark:text-white"
         />
       </NavbarContent>
-      <NavbarMenu className="font-magistral tracking-widest uppercase">
+      <NavbarMenu className="font-magistral-bold tracking-widest uppercase">
         <NavbarMenuItem>
-          <Link href="/about" className="w-full" onClick={closeMenu}>
+          <Link
+            href="/about"
+            className="w-full text-dark-4"
+            onClick={closeMenu}
+          >
             О Нас
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link href="/portfolio" className="w-full" onClick={closeMenu}>
+          <Link
+            href="/portfolio"
+            className="w-full text-dark-4"
+            onClick={closeMenu}
+          >
             Портфолио
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link href="/services" className="w-full" onClick={closeMenu}>
+          <Link
+            href="/services"
+            className="w-full text-dark-4"
+            onClick={closeMenu}
+          >
             Услуги
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link href="/contact" className="w-full" onClick={closeMenu}>
+          <Link
+            href="/contact"
+            className="w-full text-dark-4"
+            onClick={closeMenu}
+          >
             Контакты
           </Link>
         </NavbarMenuItem>
         {isAuthenticated && (
           <>
-            <hr className="opacity-100 dark:opacity-50 mt-3 mb-3" />
+            <hr className="opacity-100 dark:opacity-50 mt-3 mb-3 dark:border-dark-4" />
             <NavbarMenuItem>
-              <Link href="/user" className="w-full" onClick={closeMenu}>
+              <Link
+                href="/user"
+                className="w-full text-dark-4"
+                onClick={closeMenu}
+              >
                 Админка
               </Link>
             </NavbarMenuItem>
@@ -164,9 +184,9 @@ export default function NavBar() {
             </NavbarMenuItem>
           </>
         )}
-        <hr className="opacity-100 dark:opacity-50 mt-3 mb-3" />
+        <hr className="opacity-100 dark:opacity-50 mt-3 mb-3 dark:border-dark-4" />
         <NavbarItem>
-          <Link href="tel:88005059591" className="text-dark-1 dark:text-white">
+          <Link href="tel:88005059591" className="text-dark-1 dark:text-dark-4">
             8 (800) 505-95-91
           </Link>
         </NavbarItem>

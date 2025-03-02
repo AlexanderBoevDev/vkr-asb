@@ -1,3 +1,4 @@
+// app/api/contact-submissions-simple/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
@@ -5,22 +6,21 @@ import { authOptions } from "@/lib/auth";
 
 const prisma = new PrismaClient();
 
-// Метод GET для получения одной записи по её ID
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  // Получаем сессию, передавая req
-  const session = await getServerSession(authOptions);
+export async function GET(req: NextRequest) {
+  // Пример: /api/contact-submissions-simple/123
+  // Извлекаем "123" как последний сегмент пути
+  const { pathname } = new URL(req.url);
+  const segments = pathname.split("/");
+  const lastSegment = segments[segments.length - 1];
+  const id = parseInt(lastSegment, 10);
 
-  // Проверяем, есть ли сессия и является ли пользователь ADMIN
+  // Получаем сессию
+  const session = await getServerSession(authOptions);
   if (!session || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Недостаточно прав" }, { status: 403 });
   }
 
   try {
-    const id = parseInt(params.id, 10);
-
     const submission = await prisma.contactSubmissionSimple.findUnique({
       where: { id }
     });
@@ -29,7 +29,7 @@ export async function GET(
       return NextResponse.json({ error: "Запись не найдена" }, { status: 404 });
     }
 
-    return NextResponse.json(submission, { status: 200 });
+    return NextResponse.json(submission);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -39,19 +39,18 @@ export async function GET(
   }
 }
 
-// Метод PATCH для частичного обновления записи
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const session = await getServerSession(authOptions);
+export async function PATCH(req: NextRequest) {
+  const { pathname } = new URL(req.url);
+  const segments = pathname.split("/");
+  const lastSegment = segments[segments.length - 1];
+  const id = parseInt(lastSegment, 10);
 
+  const session = await getServerSession(authOptions);
   if (!session || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Недостаточно прав" }, { status: 403 });
   }
 
   try {
-    const id = parseInt(params.id, 10);
     const body = await req.json();
 
     const updatedSubmission = await prisma.contactSubmissionSimple.update({
@@ -69,7 +68,7 @@ export async function PATCH(
       }
     });
 
-    return NextResponse.json(updatedSubmission, { status: 200 });
+    return NextResponse.json(updatedSubmission);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -79,25 +78,19 @@ export async function PATCH(
   }
 }
 
-// Метод DELETE для удаления записи
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const session = await getServerSession(authOptions);
+export async function DELETE(req: NextRequest) {
+  const { pathname } = new URL(req.url);
+  const segments = pathname.split("/");
+  const lastSegment = segments[segments.length - 1];
+  const id = parseInt(lastSegment, 10);
 
+  const session = await getServerSession(authOptions);
   if (!session || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Недостаточно прав" }, { status: 403 });
   }
 
   try {
-    const id = parseInt(params.id, 10);
-
-    await prisma.contactSubmissionSimple.delete({
-      where: { id }
-    });
-
-    // Возвращаем статус 204 (без тела)
+    await prisma.contactSubmissionSimple.delete({ where: { id } });
     return NextResponse.json({}, { status: 204 });
   } catch (error) {
     console.error(error);
