@@ -6,10 +6,10 @@ import { authOptions } from "@/lib/auth";
 const prisma = new PrismaClient();
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY || "";
 
-/**
- * Метод GET — доступен только ADMIN
- * (Если хотите, чтобы любой мог читать, уберите проверку.)
- */
+// Подтягиваем из .env
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "";
+
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session || session.user.role !== "ADMIN") {
@@ -55,9 +55,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-
-    // 1) Извлекаем reCAPTCHA token
     const recaptchaToken = body.recaptchaToken;
+
     if (!recaptchaToken) {
       return NextResponse.json(
         { error: "No reCAPTCHA token" },
@@ -65,7 +64,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2) Проверяем reCAPTCHA на сервере
+    // 1) Проверяем reCAPTCHA
     const verifyRes = await fetch(
       "https://www.google.com/recaptcha/api/siteverify",
       {
@@ -77,11 +76,7 @@ export async function POST(request: NextRequest) {
         })
       }
     );
-
     const verifyData = await verifyRes.json();
-
-    // verifyData.success = true/false
-    // verifyData.score в диапазоне 0..1
     if (!verifyData.success || verifyData.score < 0.5) {
       return NextResponse.json(
         { error: "reCAPTCHA check failed" },
@@ -89,7 +84,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3) Создаём новую запись, если reCAPTCHA ok
+    // 2) Создаём новую запись в БД
     const newSubmission = await prisma.contactSubmissionSimple.create({
       data: {
         name: body.name,
@@ -104,6 +99,56 @@ export async function POST(request: NextRequest) {
       }
     });
 
+    // 3) Если нужно — отправляем сообщение в Telegram
+    if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+      const dateString = new Date(newSubmission.createdAt).toLocaleString(
+        "ru-RU",
+        {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        }
+      );
+
+      const messageText = `
+<b>🟠 Новая заявка #${newSubmission.id}</b>
+🗓 <b>Дата:</b> ${dateString}
+
+<b>Имя:</b> ${newSubmission.name}
+<b>Email:</b> ${newSubmission.email}
+<b>Телефон:</b> ${newSubmission.phone}
+<b>Город:</b> ${newSubmission.city ?? "—"}
+<b>Бюджет:</b> ${newSubmission.budget ?? "—"}
+<b>Услуга:</b> ${newSubmission.service ?? "—"}
+<b>Компания:</b> ${newSubmission.company ?? "—"}
+<b>Сайт:</b> ${newSubmission.website ?? "—"}
+<b>Сообщение:</b> ${newSubmission.message ?? "—"}
+      `.trim();
+
+      try {
+        await fetch(
+          `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CHAT_ID,
+              text: messageText,
+              parse_mode: "HTML"
+            })
+          }
+        );
+      } catch (err) {
+        console.error("Ошибка при отправке в Telegram:", err);
+      }
+    } else {
+      console.warn("TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не заданы в .env");
+    }
+
+    // 4) Возвращаем результат
     return NextResponse.json(newSubmission, { status: 201 });
   } catch (error) {
     console.error("Ошибка POST /contactSubmissionsSimple:", error);

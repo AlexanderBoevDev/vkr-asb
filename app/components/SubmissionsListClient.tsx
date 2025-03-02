@@ -304,6 +304,7 @@ export default function SubmissionsListClient() {
 
       <Modal
         isOpen={showEditModal}
+        scrollBehavior="outside"
         onClose={() => setShowEditModal(false)}
         size="5xl"
         className="z-[999999]"
