@@ -13,10 +13,10 @@ import {
   Input,
   Textarea,
   Pagination,
+  Skeleton,
   addToast
 } from "@heroui/react";
 
-// Enum-тип (если нужно)
 type BudgetRange = "B200" | "B200_300" | "B300_500" | "B500_plus";
 
 interface Submission {
@@ -46,23 +46,72 @@ export default function SubmissionsListClient() {
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Параметры пагинации
   const [page, setPage] = useState(1);
-  const itemsPerPage = 10; // limit на сервере
+  const itemsPerPage = 10;
 
-  // Модалки
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedSubmission, setSelectedSubmission] =
     useState<Submission | null>(null);
   const [editData, setEditData] = useState<Submission | null>(null);
 
-  // Загружаем список (GET)
+  // Функция-скелет карточки
+  function SkeletonCard() {
+    return (
+      <Card className="w-full mb-4" radius="lg">
+        <CardBody className="dark:text-white bg-gray-100/50 dark:bg-dark-4 p-4 pb-6 lg:p-6 lg:pb-8 rounded-lg shadow-none space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-2">
+            <Skeleton className="rounded-lg mb-2">
+              <div className="h-7 w-1/2 bg-default-300 rounded-lg" />
+            </Skeleton>
+            <Skeleton className="rounded-lg mb-2">
+              <div className="h-7 w-1/2 bg-default-300 rounded-lg" />
+            </Skeleton>
+            <Skeleton className="rounded-lg mb-2">
+              <div className="h-7 w-1/2 bg-default-300 rounded-lg" />
+            </Skeleton>
+            <Skeleton className="rounded-lg mb-2">
+              <div className="h-7 w-1/2 bg-default-300 rounded-lg" />
+            </Skeleton>
+            <Skeleton className="rounded-lg mb-2">
+              <div className="h-7 w-1/2 bg-default-300 rounded-lg" />
+            </Skeleton>
+            <Skeleton className="rounded-lg mb-2">
+              <div className="h-7 w-1/2 bg-default-300 rounded-lg" />
+            </Skeleton>
+            <Skeleton className="rounded-lg mb-2">
+              <div className="h-7 w-1/2 bg-default-300 rounded-lg" />
+            </Skeleton>
+            <Skeleton className="rounded-lg mb-2">
+              <div className="h-7 w-1/2 bg-default-300 rounded-lg" />
+            </Skeleton>
+          </div>
+          <div className="grid grid-cols-1 gap-x-6 gap-y-2">
+            <Skeleton className="rounded-lg mb-2">
+              <div className="h-14 w-1/2 bg-default-300 rounded-lg" />
+            </Skeleton>
+          </div>
+          <div className="flex gap-2 mt-3 ml-auto">
+            <Skeleton className="rounded-lg">
+              <div className="h-[40px] w-[135px] bg-default-300 rounded-lg" />
+            </Skeleton>
+            <Skeleton className="rounded-lg">
+              <div className="h-[40px] w-[88px] bg-default-300 rounded-lg" />
+            </Skeleton>
+          </div>
+        </CardBody>
+      </Card>
+    );
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
+
+      // ИСКУССТВЕННАЯ ЗАДЕРЖКА на 1 секунду (1000 мс):
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       try {
-        // Важно! Путь совпадает с папкой: /contactSubmissionsSimple
         const res = await fetch(
           `/api/contact-submissions-simple?page=${page}&limit=${itemsPerPage}`
         );
@@ -85,13 +134,12 @@ export default function SubmissionsListClient() {
     fetchData();
   }, [page]);
 
-  // Редактировать
+  // Остальная логика (редактирование, удаление) без изменений:
   const handleEditClick = (submission: Submission) => {
     setEditData({ ...submission });
     setShowEditModal(true);
   };
 
-  // Сохранить изменения (PATCH)
   const handleSaveEdit = async () => {
     if (!editData) return;
     try {
@@ -106,7 +154,6 @@ export default function SubmissionsListClient() {
       if (!res.ok) {
         throw new Error("Ошибка при обновлении заявки");
       }
-      // Обновляем локальный список
       setSubmissions((prev) =>
         prev.map((item) => (item.id === editData.id ? editData : item))
       );
@@ -122,7 +169,6 @@ export default function SubmissionsListClient() {
     }
   };
 
-  // Удалить
   const handleDeleteClick = (submission: Submission) => {
     setSelectedSubmission(submission);
     setShowDeleteModal(true);
@@ -156,7 +202,12 @@ export default function SubmissionsListClient() {
   return (
     <>
       {isLoading ? (
-        <p>Загрузка...</p>
+        <div className="flex flex-col gap-4 w-full">
+          {/* Рендерим 10 скелетонов, пока грузим */}
+          {Array.from({ length: 10 }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
       ) : (
         <div className="flex flex-col gap-4 w-full">
           {submissions.map((submission) => (
@@ -211,7 +262,6 @@ export default function SubmissionsListClient() {
             </Card>
           ))}
 
-          {/* Пагинация */}
           {totalCount > 10 && (
             <div className="mt-4 flex justify-center">
               <Pagination
@@ -226,7 +276,7 @@ export default function SubmissionsListClient() {
         </div>
       )}
 
-      {/* Модалка удаления */}
+      {/* Модалки */}
       <Modal
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
@@ -253,7 +303,6 @@ export default function SubmissionsListClient() {
         </ModalContent>
       </Modal>
 
-      {/* Модалка редактирования */}
       <Modal
         isOpen={showEditModal}
         onClose={() => setShowEditModal(false)}
@@ -303,7 +352,6 @@ export default function SubmissionsListClient() {
                         )
                       }
                     />
-                    {/* Если хотите сделать селект для budget, можно, а пока обычный input */}
                     <Input
                       label="Бюджет"
                       value={editData.budget ?? ""}
