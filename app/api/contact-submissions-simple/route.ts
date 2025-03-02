@@ -4,13 +4,13 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 const prisma = new PrismaClient();
+const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY || "";
 
 /**
- * Метод GET — (по вашему коду) доступен только ADMIN.
- * Если хотите чтобы любой мог читать, уберите проверку на роль.
+ * Метод GET — доступен только ADMIN
+ * (Если хотите, чтобы любой мог читать, уберите проверку.)
  */
 export async function GET(request: NextRequest) {
-  // Если хотите чтобы только админ мог читать:
   const session = await getServerSession(authOptions);
   if (!session || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Недостаточно прав" }, { status: 403 });
@@ -49,13 +49,48 @@ export async function GET(request: NextRequest) {
 }
 
 /**
- * Метод POST — «писать могут все» (нет проверки).
- * Создаёт новую запись ContactSubmissionSimple.
+ * Метод POST — «писать могут все»
+ * С валидацией reCAPTCHA v3
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
+    // 1) Извлекаем reCAPTCHA token
+    const recaptchaToken = body.recaptchaToken;
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        { error: "No reCAPTCHA token" },
+        { status: 400 }
+      );
+    }
+
+    // 2) Проверяем reCAPTCHA на сервере
+    const verifyRes = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          secret: RECAPTCHA_SECRET,
+          response: recaptchaToken
+        })
+      }
+    );
+
+    const verifyData = await verifyRes.json();
+    console.log("DEBUG reCAPTCHA verifyData =", verifyData);
+
+    // verifyData.success = true/false
+    // verifyData.score в диапазоне 0..1
+    if (!verifyData.success || verifyData.score < 0.5) {
+      return NextResponse.json(
+        { error: "reCAPTCHA check failed" },
+        { status: 400 }
+      );
+    }
+
+    // 3) Создаём новую запись, если reCAPTCHA ok
     const newSubmission = await prisma.contactSubmissionSimple.create({
       data: {
         name: body.name,

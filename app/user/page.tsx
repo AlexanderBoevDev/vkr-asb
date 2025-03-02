@@ -18,7 +18,7 @@ export default async function UserPage() {
     <div className="min-h-screen">
       <div className="container flex-grow mx-auto mt-5 mb-5 px-6 max-w-[1280px]">
         <ShadowTitle text="Личный кабинет" ratio={0.3} />
-        <section className="relative pb-[50px]">
+        <section className="relative">
           <div className="block text-dark-2 z-10 relative">
             <PageTitle title="Личный кабинет" />
             <PageSubtitle subtitle="Личный кабинет администратора" />

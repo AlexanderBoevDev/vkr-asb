@@ -12,12 +12,23 @@ import {
   addToast
 } from "@heroui/react";
 
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "";
+
 const BUDGET_OPTIONS = [
   { key: "B200", label: "От 200 тыс. руб." },
   { key: "B200_300", label: "200 - 300 тыс. руб." },
   { key: "B300_500", label: "300 - 500 тыс. руб." },
   { key: "B500_plus", label: "Более 500 тыс. руб." }
 ];
+
+declare global {
+  interface Window {
+    grecaptcha?: {
+      execute(siteKey: string, options: { action: string }): Promise<string>;
+      ready(cb: () => void): void;
+    };
+  }
+}
 
 export default function ContactSubmissionSimple() {
   const [name, setName] = useState("");
@@ -39,7 +50,16 @@ export default function ContactSubmissionSimple() {
       return;
     }
 
+    if (!window.grecaptcha) {
+      console.error("reCAPTCHA скрипт не загружен");
+      return;
+    }
+
     try {
+      const token = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {
+        action: "submit"
+      });
+
       const response = await fetch("/api/contact-submissions-simple", {
         method: "POST",
         headers: {
@@ -54,12 +74,17 @@ export default function ContactSubmissionSimple() {
           service,
           company,
           website,
-          message
+          message,
+          recaptchaToken: token
         })
       });
 
       if (!response.ok) {
         console.error("Ошибка при отправке формы");
+        addToast({
+          title: "Ошибка",
+          description: "Не удалось отправить форму"
+        });
         return;
       }
 
@@ -83,6 +108,10 @@ export default function ContactSubmissionSimple() {
       console.log("Форма успешно отправлена");
     } catch (error) {
       console.error("Ошибка при отправке формы", error);
+      addToast({
+        title: "Ошибка",
+        description: "Произошла ошибка при отправке"
+      });
     }
   };
 

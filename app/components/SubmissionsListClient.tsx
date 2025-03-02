@@ -203,7 +203,6 @@ export default function SubmissionsListClient() {
     <>
       {isLoading ? (
         <div className="flex flex-col gap-4 w-full">
-          {/* Рендерим 10 скелетонов, пока грузим */}
           {Array.from({ length: 10 }).map((_, i) => (
             <SkeletonCard key={i} />
           ))}
@@ -212,7 +211,7 @@ export default function SubmissionsListClient() {
         <div className="flex flex-col gap-4 w-full">
           {submissions.map((submission) => (
             <Card key={submission.id} className="w-full mb-4">
-              <CardBody className="dark:text-white bg-gray-100/50 dark:bg-dark-4 p-4 pb-6 lg:p-6 lg:pb-8 rounded-lg shadow-none">
+              <CardBody className="text-dark-4 dark:text-white bg-gray-100/50 dark:bg-dark-4 p-4 pb-6 lg:p-6 lg:pb-8 rounded-lg shadow-none">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-2">
                   <p>
                     <strong>Имя:</strong> {submission.name}
