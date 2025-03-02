@@ -79,7 +79,6 @@ export async function POST(request: NextRequest) {
     );
 
     const verifyData = await verifyRes.json();
-    console.log("DEBUG reCAPTCHA verifyData =", verifyData);
 
     // verifyData.success = true/false
     // verifyData.score в диапазоне 0..1
