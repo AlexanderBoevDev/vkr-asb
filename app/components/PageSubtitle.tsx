@@ -15,8 +15,10 @@ export default function PageSubtitle({ subtitle }: PageSubtitleProps) {
   const rafRef = useRef<number | null>(null);
   const subtitleRef = useRef<HTMLHeadingElement>(null);
 
+  // Коэффициент "плавности" скролла
   const LERP = 0.07;
 
+  // Отслеживаем скролл и плавное «дотягивание» (LERP)
   useEffect(() => {
     const animate = () => {
       const diff = scrollTargetRef.current - scrollPosRef.current;
@@ -47,9 +49,9 @@ export default function PageSubtitle({ subtitle }: PageSubtitleProps) {
     };
   }, []);
 
+  // Используем IntersectionObserver с root: null (viewport)
   useEffect(() => {
-    const parentEl = document.querySelector(".relative.overflow-hidden");
-    if (!parentEl || !subtitleRef.current) return;
+    if (!subtitleRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -57,7 +59,7 @@ export default function PageSubtitle({ subtitle }: PageSubtitleProps) {
         setIntersectionRatio(entry.intersectionRatio);
       },
       {
-        root: parentEl,
+        root: null, // Отслеживаем внутри viewport
         threshold: Array.from({ length: 101 }, (_, i) => i / 100)
       }
     );
@@ -69,6 +71,7 @@ export default function PageSubtitle({ subtitle }: PageSubtitleProps) {
     };
   }, []);
 
+  // Вычисляем «прозрачность» в зависимости от scrollPos и intersectionRatio
   const baseOpacity = Math.max(1 - scrollPos / 400, 0);
   const finalOpacity = baseOpacity * intersectionRatio;
 

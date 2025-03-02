@@ -40,7 +40,7 @@ export default function ContactSubmissionSimple() {
     }
 
     try {
-      const response = await fetch("/api/contactSubmissionsSimple", {
+      const response = await fetch("/api/contact-submissions-simple", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

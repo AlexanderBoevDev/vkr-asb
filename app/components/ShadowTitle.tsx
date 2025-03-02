@@ -36,7 +36,7 @@ export default function ShadowTitle({ text, ratio = 0.5 }: ShadowTitleProps) {
    */
   return (
     <div
-      className="shadow-title parallax-top-shadow font-magistral-black tracking-widest z-1"
+      className="shadow-title parallax-top-shadow font-magistral-black tracking-widest z-0"
       style={{
         top: 0,
         transform: `translateY(${offset}px)`

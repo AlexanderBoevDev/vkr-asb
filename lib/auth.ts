@@ -1,4 +1,3 @@
-// lib/auth.ts
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
@@ -38,9 +37,11 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Неверный пароль");
         }
 
+        // Возвращаем объект со всеми нужными полями (включая role)
         return {
           id: String(user.id),
-          email: user.email
+          email: user.email,
+          role: user.role
         };
       }
     })
@@ -50,7 +51,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-        // Тут можно добавить другие поля, например role
+        token.role = user.role;
       }
       return token;
     },
@@ -58,7 +59,7 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
-        // Если добавляли role в jwt, то можно session.user.role = token.role
+        session.user.role = token.role as string;
       }
       return session;
     }
